@@ -70,7 +70,6 @@
         <a href="${detailUrl}" aria-label="${escapeHtml(item.name)}の実績を見る">
           <div class="case-cover">
             <img src="${escapeHtml(item.thumb)}" alt="${escapeHtml(item.name)}の受講生実績バナー" loading="lazy" width="480" height="360">
-            <strong class="outcome-badge">${escapeHtml(item.outcomeValue)}</strong>
           </div>
           <div class="case-body">
             <div class="case-tags">
