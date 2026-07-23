@@ -13,10 +13,8 @@
   let matchedCases = [...cases];
 
   const fields = {
-    keyword: document.querySelector("#keyword"),
     age: document.querySelector("#age"),
     job: document.querySelector("#job"),
-    gender: document.querySelector("#gender"),
   };
 
   const escapeHtml = (value) => String(value)
@@ -26,61 +24,25 @@
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
-  const normalized = (value) => String(value)
-    .normalize("NFKC")
-    .toLocaleLowerCase("ja")
-    .replace(/\s+/g, "");
-
-  const searchableText = (item) => normalized([
-    item.name,
-    item.role,
-    item.ageLabel,
-    item.genderLabel,
-    item.jobLabels.join(" "),
-    item.resultTypes.join(" "),
-    item.heroTag,
-    item.headline,
-    item.outcome,
-    item.trigger.eyebrow,
-    item.trigger.headline,
-    item.trigger.summary,
-    item.before.label,
-    item.before.metric,
-    item.before.callout,
-    item.steps.map((step) => `${step.timing} ${step.metric} ${step.title} ${step.detail}`).join(" "),
-  ].join(" "));
-
-  cases.forEach((item) => {
-    item.searchableText = searchableText(item);
-  });
-
   const stateFromForm = () => ({
-    keyword: fields.keyword.value.trim(),
     age: fields.age.value,
     job: fields.job.value,
-    gender: fields.gender.value,
   });
 
   const applyUrlState = () => {
     const params = new URLSearchParams(window.location.search);
-    if (params.has("q")) fields.keyword.value = params.get("q");
     if ([...fields.age.options].some((option) => option.value === params.get("age"))) {
       fields.age.value = params.get("age");
     }
     if ([...fields.job.options].some((option) => option.value === params.get("job"))) {
       fields.job.value = params.get("job");
     }
-    if ([...fields.gender.options].some((option) => option.value === params.get("gender"))) {
-      fields.gender.value = params.get("gender");
-    }
   };
 
   const updateUrl = (state) => {
     const params = new URLSearchParams();
-    if (state.keyword) params.set("q", state.keyword);
     if (state.age !== "all") params.set("age", state.age);
     if (state.job !== "all") params.set("job", state.job);
-    if (state.gender !== "all") params.set("gender", state.gender);
     const query = params.toString();
     history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
   };
@@ -89,10 +51,8 @@
 
   const renderActiveFilters = (state) => {
     const items = [];
-    if (state.keyword) items.push(`キーワード：${state.keyword}`);
     if (state.age !== "all") items.push(`年齢：${selectedLabel(fields.age)}`);
     if (state.job !== "all") items.push(`職業：${selectedLabel(fields.job)}`);
-    if (state.gender !== "all") items.push(`性別：${selectedLabel(fields.gender)}`);
     filters.innerHTML = items
       .map((item) => `<span class="active-filter">${escapeHtml(item)}</span>`)
       .join("");
@@ -146,12 +106,9 @@
 
   const filterCases = ({ scroll = false } = {}) => {
     const state = stateFromForm();
-    const query = normalized(state.keyword);
     matchedCases = cases.filter((item) => (
-      (!query || item.searchableText.includes(query))
-      && (state.age === "all" || item.age === state.age)
+      (state.age === "all" || item.age === state.age)
       && (state.job === "all" || item.jobs.includes(state.job))
-      && (state.gender === "all" || item.gender === state.gender)
     ));
     visibleLimit = pageSize;
     updateUrl(state);
@@ -163,10 +120,8 @@
   };
 
   const clearSearch = ({ scroll = false } = {}) => {
-    fields.keyword.value = "";
     fields.age.value = "all";
     fields.job.value = "all";
-    fields.gender.value = "all";
     filterCases({ scroll });
   };
 
@@ -177,7 +132,6 @@
 
   fields.age.addEventListener("change", () => filterCases());
   fields.job.addEventListener("change", () => filterCases());
-  fields.gender.addEventListener("change", () => filterCases());
 
   clearButton.addEventListener("click", () => clearSearch());
   document.querySelector("[data-clear-search]").addEventListener("click", () => clearSearch({ scroll: true }));

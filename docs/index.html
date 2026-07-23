@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="株式会社NHの受講生実績を、年齢・職業・性別などの条件から探せるスマートフォン向けサイトです。">
+  <meta name="description" content="株式会社NHの受講生実績を、年齢・職業の条件から探せるスマートフォン向けサイトです。">
   <title>ERABERU 受講生実績ナビ | 株式会社NH</title>
   <link rel="stylesheet" href="assets/styles.css">
   <script src="assets/cases-data.js" defer></script>
@@ -35,7 +35,7 @@
       </figure>
       <div class="intro-metrics" aria-label="掲載内容">
         <div><strong>63</strong><span>人の実績</span></div>
-        <div><strong>3</strong><span>つの検索条件</span></div>
+        <div><strong>2</strong><span>つの検索条件</span></div>
         <div><strong>6</strong><span>段階のプロセス</span></div>
       </div>
     </section>
@@ -48,11 +48,6 @@
       </div>
 
       <form class="search-form" id="case-search" role="search">
-        <label class="keyword-field" for="keyword">
-          <span>キーワード</span>
-          <input id="keyword" name="keyword" type="search" placeholder="例：会社員、子育て、AIコンサル">
-        </label>
-
         <div class="filter-grid">
           <label class="filter-field filter-field-age" for="age">
             <span>年齢</span>
@@ -84,15 +79,6 @@
             </select>
           </label>
 
-          <label class="filter-field filter-field-gender" for="gender">
-            <span>性別</span>
-            <select id="gender" name="gender">
-              <option value="all">すべて</option>
-              <option value="female">女性</option>
-              <option value="male">男性</option>
-              <option value="undisclosed">未掲載</option>
-            </select>
-          </label>
         </div>
 
         <div class="search-actions">
@@ -100,7 +86,7 @@
           <button class="text-button" id="clear-search" type="button">条件をクリア</button>
         </div>
       </form>
-      <p class="data-note">年齢・性別は、資料に記載された公開情報のみ表示しています。</p>
+      <p class="data-note">年齢は、資料に記載された公開情報のみ表示しています。</p>
     </section>
 
     <section class="results" id="results" aria-labelledby="results-title">
